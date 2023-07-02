@@ -13,7 +13,7 @@ const Tag = () => {
     const [tag, setTag] = useState("car")
  
 
-    async function fetchData(){
+    async function fetchData(tag){
         setLoading(true)
         const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${tag}`
  
@@ -23,20 +23,24 @@ const Tag = () => {
     }
 
     useEffect(() => {
-        fetchData()
+        fetchData(tag)
     },[])
+
+    function changeHandler(event){
+        setTag(event.target.value)
+    }
 
     return(
         <div>
             <h1>
-                Random  Gif
+                Random {tag.toUpperCase()} Gif
             </h1>
             {
             loading ? (<Spinner/>) : (<img  src={gif}/>)
             }
 
-            <input name="tag" value={tag} />
-            <button onClick={() => (fetchData())}>Generate</button>
+            <input onChange={changeHandler} type="text" value={tag} />
+            <button onClick={() => (fetchData(tag))}>Generate</button>
         </div>
     )
 }
